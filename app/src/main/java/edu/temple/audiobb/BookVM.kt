@@ -17,4 +17,9 @@ class BookVM : ViewModel() {
     fun setSelectedBook(selectedBook: Book?) {
         this.book.value = selectedBook
     }
+
+    fun getBook(): LiveData<Book> {
+        return book
+
+    }
 }
