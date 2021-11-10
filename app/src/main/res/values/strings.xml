@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">AudioBB</string>
+    <string name="search_for_book_here">enter search term</string>
+    <string name="search">Search</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_matches" />
+    <string name="search_books" />
+    <string name="book_cover" />
+    <string name="textview" />
 </resources>

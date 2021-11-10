@@ -5,13 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class BookVM : ViewModel() {
+    private var empty: Boolean = true
 
     private val book: MutableLiveData<Book> by lazy {
         MutableLiveData()
-    }
-
-    fun getSelectedBook(): LiveData<Book> {
-        return book
     }
 
     fun setSelectedBook(selectedBook: Book?) {
@@ -21,5 +18,9 @@ class BookVM : ViewModel() {
     fun getBook(): LiveData<Book> {
         return book
 
+    }
+
+    fun isEmpty(): Boolean {
+        return empty
     }
 }

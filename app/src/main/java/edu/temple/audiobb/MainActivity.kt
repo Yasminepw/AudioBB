@@ -1,79 +1,103 @@
 package edu.temple.audiobb
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface {
 
-    val isSingleContainer : Boolean by lazy{
-        findViewById<View>(R.id.container2) == null
+    private var isSingleContainer : Boolean = false
+    private lateinit var selectedBookViewModel: BookVM
+    private var bookList = BookList()
+
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if(it.resultCode == RESULT_OK) {
+            bookList = it.data?.getSerializableExtra("edu.temple.audiobb.BookSearchActivity.SEARCH_RESULTS") as BookList
+            ViewModelProvider(this).get(BookListViewModel::class.java).setBookList(bookList)
+        }
     }
 
-    val selectedBookViewModel : BookVM by lazy {
-        ViewModelProvider(this).get(BookVM::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val bookList = getBookList()
+        isSingleContainer = findViewById<View>(R.id.container2) != null
+        selectedBookViewModel = ViewModelProvider(this).get(BookVM::class.java)
 
-        if (supportFragmentManager.findFragmentById(R.id.container1) is BookDetailsFragment) {
+        val launchSearchButton = findViewById<Button>(R.id.launchMainSearchButton)
+        launchSearchButton.setOnClickListener {
+            val intent = Intent(this, BookSearchActivity::class.java)
+            launcher.launch(intent)
+        }
+
+        bookList.add(Book(0, "Click to search", "", ""))
+
+        val bookListFragment = BookListFragment.newInstance(bookList)
+
+        if (supportFragmentManager.findFragmentById(R.id.container1) is BookDetailsFragment
+            && isSingleContainer) {
             supportFragmentManager.popBackStack()
+        }
+
+        if (supportFragmentManager.findFragmentById(R.id.container2) is BookDetailsFragment
+            && !isSingleContainer) {
+            supportFragmentManager.popBackStack()
+        }
+
+        if (supportFragmentManager.findFragmentById(R.id.container2) is BookDetailsFragment
+            && !isSingleContainer) {
+            if (selectedBookViewModel.getBook().value?.id != -1
+                && !selectedBookViewModel.isEmpty()) {
+                selectionMade()
+            }
         }
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.container1, BookListFragment.newInstance(bookList))
+                .replace(R.id.container1, bookListFragment)
                 .commit()
-        } else
-
-            if (isSingleContainer && selectedBookViewModel.getSelectedBook().value != null) {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.container1, BookDetailsFragment())
-                    .setReorderingAllowed(true)
-                    .addToBackStack(null)
-                    .commit()
         }
 
-        if (!isSingleContainer && supportFragmentManager.findFragmentById(R.id.container2) !is BookDetailsFragment)
+        if(isSingleContainer && supportFragmentManager.findFragmentById(R.id.container2) == null){
             supportFragmentManager.beginTransaction()
-                .add(R.id.container2, BookDetailsFragment())
+                .replace(R.id.container2, BookDetailsFragment())
+                .addToBackStack(null)
                 .commit()
+        } else if(isSingleContainer) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container2, BookDetailsFragment())
+                .commit()
+        }
 
     }
 
-    private fun getBookList() : BookList {
-        val bookList = BookList()
-        bookList.add(Book("Book 0", "Author 9"))
-        bookList.add(Book("Book 1", "Author 8"))
-        bookList.add(Book("Book 2", "Author 7"))
-        bookList.add(Book("Book 3", "Author 6"))
-        bookList.add(Book("Book 4", "Author 5"))
-        bookList.add(Book("Book 5", "Author 4"))
-        bookList.add(Book("Book 6", "Author 3"))
-        bookList.add(Book("Book 7", "Author 3"))
-        bookList.add(Book("Book 8", "Author 2"))
-        bookList.add(Book("Book 9", "Author 0"))
-
-        return bookList
-    }
-
-    override fun onBackPressed() {
-        selectedBookViewModel.setSelectedBook(null)
-        super.onBackPressed()
-    }
-
-    override fun bookSelected() {
-        if (isSingleContainer) {
+    override fun selectionMade() {
+        if (!isSingleContainer) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container1, BookDetailsFragment())
-                .setReorderingAllowed(true)
                 .addToBackStack(null)
                 .commit()
         }
+        else {
+            if (supportFragmentManager.findFragmentById(R.id.container2) == null) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container2, BookDetailsFragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+
     }
+
+        override fun onBackPressed() {
+            super.onBackPressed()
+            selectedBookViewModel.setSelectedBook(null)
+        }
+
+
 }
