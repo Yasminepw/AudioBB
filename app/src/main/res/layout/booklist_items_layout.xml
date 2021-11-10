@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="match_parent"
+        android:id="@+id/bookTitleRecyclerTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/textview"
+        android:textColor="@color/black"
         android:textSize="24sp"
-        android:typeface="serif"
-        tools:text="Title" />
+        android:layout_margin="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/authorTextView"
-        android:layout_width="match_parent"
+        android:id="@+id/bookDetailsRecyclerTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        tools:text="author" />
-</LinearLayout>
+        android:layout_margin="10dp"
+        android:text="@string/textview"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bookTitleRecyclerTextView" />
+
+    <TextView
+        android:id="@+id/bookIDTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bookDetailsRecyclerTextView"
+        app:layout_constraintTop_toBottomOf="@id/bookTitleRecyclerTextView"
+        tools:text="0" />
+</androidx.constraintlayout.widget.ConstraintLayout>
