@@ -1,6 +1,7 @@
 package edu.temple.audiobb
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 
 
 class ControlFragment : Fragment() {
@@ -17,6 +19,9 @@ class ControlFragment : Fragment() {
     lateinit var stopButton: Button
     var seekBar: SeekBar? = null
     var nowPlaying: TextView? = null
+    val bookViewModelProvider: BookVM by lazy {
+        ViewModelProvider(requireActivity()).get(BookVM::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +54,13 @@ class ControlFragment : Fragment() {
         val onClickListener = View.OnClickListener {
             val parent = activity as ControlInterface
             when (it.id) {
-                R.id.playButton -> parent.play()
+                R.id.playButton -> {
+                    val id = bookViewModelProvider.getBook().value?.id
+                    Log.d("TAG", "This is the id $id")
+                    if (id != null) {
+                        parent.play(id)
+                    }
+                }
                 R.id.pauseButton -> parent.pause()
                 R.id.stopButton -> parent.stop()
 
@@ -72,7 +83,7 @@ class ControlFragment : Fragment() {
     }
 
     interface ControlInterface {
-        fun play()
+        fun play(id : Int)
         fun pause()
         fun stop()
         fun seek(position: Int)

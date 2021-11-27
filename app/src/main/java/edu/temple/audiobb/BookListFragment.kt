@@ -1,6 +1,7 @@
 package edu.temple.audiobb
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -58,6 +59,7 @@ class BookListFragment : Fragment() {
     private fun myOnClick(book: Book) {
         (activity as BookSelectedInterface).selectionMade()
         bookViewModel.setSelectedBook(book)
+        Log.d("TEST", "myOnClick: The book id from list ${book.id}")
     }
 
     companion object {
