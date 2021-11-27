@@ -11,12 +11,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="49dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button">
 
     </FrameLayout>
 
@@ -43,8 +43,10 @@
         android:text="Pause"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/seekBar"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/container1" />
+        app:layout_constraintTop_toBottomOf="@+id/container1"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/stopButton"
@@ -60,12 +62,22 @@
         android:id="@+id/nowPlaying"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="63dp"
         android:layout_marginBottom="16dp"
         android:text="Now Playing: Nothing"
         app:layout_constraintBottom_toTopOf="@+id/container1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/searchEditText" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="592dp"
+        android:layout_marginBottom="42dp"
+        android:text="Play"
+        app:layout_constraintBottom_toTopOf="@+id/container1"
+        app:layout_constraintStart_toStartOf="@+id/nowPlaying"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
