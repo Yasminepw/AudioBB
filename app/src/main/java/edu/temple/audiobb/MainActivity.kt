@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
             launcher.launch(intent)
         }
 
-        bookList.add(Book(0, "Click to search", "", ""))
+        bookList.add(Book(0, "Click to search", "", "", 0))
 
         val bookListFragment = BookListFragment.newInstance(bookList)
 
