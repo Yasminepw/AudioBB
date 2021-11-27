@@ -10,7 +10,7 @@
         <entry key="app/src/main/res/layout/booklist_items_layout.xml" value="0.5432291666666667" />
         <entry key="app/src/main/res/layout/fragment_book_details.xml" value="0.5432291666666667" />
         <entry key="app/src/main/res/layout/fragment_book_list.xml" value="0.5432291666666667" />
-        <entry key="app/src/main/res/layout/fragment_control.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_control.xml" value="0.25" />
         <entry key="app/src/main/res/layout/two_pane_layout.xml" value="0.33" />
       </map>
     </option>

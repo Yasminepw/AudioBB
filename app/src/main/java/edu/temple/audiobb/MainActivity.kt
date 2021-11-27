@@ -3,6 +3,7 @@ package edu.temple.audiobb
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
         if(it.resultCode == RESULT_OK) {
             bookList = it.data?.getSerializableExtra("edu.temple.audiobb.BookSearchActivity.SEARCH_RESULTS") as BookList
             ViewModelProvider(this).get(BookListViewModel::class.java).setBookList(bookList)
+            Log.d("TAG", ": ${bookList[0].title} ")
         }
     }
 
