@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import com.squareup.picasso.Picasso
 
 class BookDetailsFragment : Fragment() {
 
@@ -42,6 +43,8 @@ class BookDetailsFragment : Fragment() {
         book?.run {
             titleTextView.text = title
             authorTextView.text = author
+            if (book.coverURL.isNotEmpty())
+                Picasso.get().load(book.coverURL).into(coverImageView)
         }
     }
 }

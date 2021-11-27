@@ -6,5 +6,7 @@
     <string name="no_matches" />
     <string name="search_books" />
     <string name="book_cover" />
-    <string name="textview" />
+    <string name="textview">TextView</string>
+    <string name="book_search">Book Search</string>
+    <string name="id_number">ID: </string>
 </resources>
