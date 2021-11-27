@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
+import edu.temple.audlibplayer.PlayerService
 
 class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface {
 
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
             bookList = it.data?.getSerializableExtra("edu.temple.audiobb.BookSearchActivity.SEARCH_RESULTS") as BookList
             ViewModelProvider(this).get(BookListViewModel::class.java).setBookList(bookList)
             Log.d("TAG", ": ${bookList[0].title} ")
+
+
         }
     }
 
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         isSingleContainer = findViewById<View>(R.id.container2) != null
         selectedBookViewModel = ViewModelProvider(this).get(BookVM::class.java)
@@ -37,7 +41,7 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
             launcher.launch(intent)
         }
 
-        bookList.add(Book(0, "Click to search", "", "", 0))
+        bookList.add(Book(0, "", "", "", 0))
 
         val bookListFragment = BookListFragment.newInstance(bookList)
 

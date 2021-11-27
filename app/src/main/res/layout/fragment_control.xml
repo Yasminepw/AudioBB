@@ -14,7 +14,7 @@
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/playButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -31,7 +31,7 @@
         android:layout_marginBottom="16dp"
         android:text="Now Playing: Nothing"
         app:layout_constraintBottom_toTopOf="@id/seekBar"
-        app:layout_constraintTop_toBottomOf="@id/button"
+        app:layout_constraintTop_toBottomOf="@id/playButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
