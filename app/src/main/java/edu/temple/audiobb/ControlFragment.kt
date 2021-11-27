@@ -34,6 +34,14 @@ class ControlFragment : Fragment() {
         seekBar = layout.findViewById(R.id.seekBar)
         nowPlaying = layout.findViewById(R.id.nowPlaying)
 
+        ViewModelProvider(requireActivity())
+            .get(PlayingBookVM::class.java)
+            .getPlayingBook()
+            .observe(requireActivity()) {
+                if (seekBar != null)
+                seekBar!!.progress = it.progress
+            }
+
         seekBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {

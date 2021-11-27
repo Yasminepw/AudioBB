@@ -5,7 +5,9 @@ import android.content.Intent
 import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -24,14 +26,19 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
     var isConnected = false
     lateinit var mediaBinder: PlayerService.MediaControlBinder
 
+    val mediaHandler = Handler(Looper.getMainLooper()) {
+        bookProgress = it.obj as PlayerService.BookProgress
+        ViewModelProvider(this).get(PlayingBookVM::class.java).setPlayingBook(bookProgress)
+        true
+    }
+
     private val serviceConnection = object: ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             isConnected = true
             mediaBinder = service as PlayerService.MediaControlBinder
+            mediaBinder.setProgressHandler(mediaHandler)
 
         }
-
-
 
         override fun onServiceDisconnected(name: ComponentName?) {
             isConnected = false
@@ -138,6 +145,7 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
 
     override fun play(id: Int) {
         mediaBinder.play(id)
+
         startService(Intent(this, PlayerService::class.java))
 
     }
