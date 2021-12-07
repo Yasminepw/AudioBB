@@ -14,7 +14,7 @@ class BookDownloader(val context: Context) {
             val mainURL = URL(DOWNLOAD_URL + id)
             val urlConnection: URLConnection = mainURL.openConnection()
             urlConnection.connect()
-            val filename = "book_$id.mp3"
+            val filename = "id_$id.mp3"
             val cache = File(context.filesDir, filename)
 
             if(!cache.exists()) {

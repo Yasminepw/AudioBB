@@ -12,9 +12,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import edu.temple.audlibplayer.PlayerService
+import java.io.File
 
 class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface, ControlFragment.ControlInterface {
 
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
     private lateinit var selectedBookViewModel: BookVM
     private var bookList = BookList()
     private lateinit var bookProgress: PlayerService.BookProgress
+    private val downloads = BookDownloader(this)
 
     var isConnected = false
     lateinit var mediaBinder: PlayerService.MediaControlBinder
@@ -75,6 +78,9 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
         }
 
         bookList.add(Book(0, "", "", "", 0))
+        if(downloads.getBookList() != null) {
+            bookList = downloads.getBookList()!!
+        }
 
         val bookListFragment = BookListFragment.newInstance(bookList)
 
@@ -115,6 +121,15 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
 
     }
 
+    override fun onStop() {
+        super.onStop()
+        val bookList = ViewModelProvider(this).get(BookListViewModel::class.java).getBookList().value
+        if (bookList != null)
+            downloads.savedBookList(bookList)
+
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         unbindService(serviceConnection)
@@ -144,8 +159,14 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
         }
 
     override fun play(id: Int) {
-        mediaBinder.play(id)
-
+        val file = File(filesDir, "id_$id.mp3")
+        if (file.exists()) {
+            mediaBinder.play(file, 0)
+            Toast.makeText(this, "Playing from file.", Toast.LENGTH_SHORT).show()
+        } else {
+            mediaBinder.play(id)
+            downloads.bookDownload(id)
+        }
         startService(Intent(this, PlayerService::class.java))
 
     }
